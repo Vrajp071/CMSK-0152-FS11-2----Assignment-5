@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .btn {
+            background-color: #00e1ff;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border: none;
+            color: white;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+        .btn-delete {
+            background-color: #00e1ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <button class="btn" id="addBtn">Add</button>
+        <button class="btn" id="clearBtn">Clear</button>
+        <button class="btn" id="sortBtn">Sort</button>
+        <input type="text" id="inputItem" placeholder="Enter task">
+        <button class="btn btn-delete" id="deleteBtn">Delete</button>
+        <ul id="todoList"></ul>
+    </div>
+    <script>
+        const addBtn = document.getElementById('addBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const sortBtn = document.getElementById('sortBtn');
+        const inputItem = document.getElementById('inputItem');
+        const deleteBtn = document.getElementById('deleteBtn');
+        const todoList = document.getElementById('todoList');
+
+        addBtn.addEventListener('click', () => {
+            const li = document.createElement('li');
+            li.textContent = inputItem.value;
+            todoList.appendChild(li);
+            inputItem.value = '';
+        });
+
+        clearBtn.addEventListener('click', () => {
+            while (todoList.firstChild) {
+                todoList.removeChild(todoList.firstChild);
+            }
+        });
+
+        sortBtn.addEventListener('click', () => {
+            const listItems = Array.from(todoList.getElementsByTagName('li'));
+            listItems.sort((a, b) => a.textContent.localeCompare(b.textContent));
+            listItems.forEach(li => todoList.appendChild(li));
+        });
+
+        deleteBtn.addEventListener('click', () => {
+            const selectedItem = todoList.querySelector('li:focus');
+            if (selectedItem) {
+                todoList.removeChild(selectedItem);
+            }
+        });
+
+        todoList.addEventListener('click', (e) => {
+            if (e.target.tagName === 'LI') {
+                e.target.focus();
+            }
+        });
+    </script>
+</body>
+</html>
